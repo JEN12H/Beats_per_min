@@ -1,0 +1,46 @@
+# --- Python cache & build files ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+build/
+dist/
+
+# --- Environment & dependency folders ---
+beats/
+venv/
+.venv/
+env/
+ENV/
+*.env
+.DS_Store
+
+# --- Streamlit cache ---
+.streamlit/
+.streamlit/secrets.toml
+
+# --- IDE/project settings ---
+.vscode/
+.idea/
+*.code-workspace
+
+# --- Data & model files ---
+*.pkl
+*.joblib
+*.h5
+*.zip
+*.csv
+*.xlsx
+*.sav
+*.npy
+*.npz
+
+# --- Logs ---
+*.log
+
+# --- Temporary files ---
+*.tmp
+*.bak
+*.swp
