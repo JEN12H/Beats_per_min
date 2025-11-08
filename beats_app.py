@@ -1,43 +1,42 @@
-import streamlit as st  
+import streamlit as st
 import numpy as np
-import pandas as pd 
-import pickle 
+import pandas as pd
+import pickle
 import os
 import gdown
 
-# Folder ID from Google Drive
-folder_id = "14gwGJRXfiyxrl56heHTgZ1oHkq2WHPM1"  # ⬅️ Replace this with your actual folder ID
-output_dir = "beats_model"
+# ------------------------------------------------------------
+# 📁 STEP 1 — Create local folder for model/data
+# ------------------------------------------------------------
+MODEL_DIR = "beats_model"
+os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Create directory if it doesn't exist
-os.makedirs(output_dir, exist_ok=True)
-
-# Google Drive base URL for listing files in a folder
-url = f"https://drive.google.com/drive/u/0/folders/{folder_id}"
-
-# File IDs (manually specify or get individual file links)
+# ------------------------------------------------------------
+# ☁️ STEP 2 — Download model and data files from Google Drive
+# ------------------------------------------------------------
 files = {
-    "best_model.pkl": "1Lx3eLuI0HMzeyCKcm7v8CEsvsuuiC7jk",
+    "best_model.pkl": "1Lx3eLuI0HMzeyCKcm7v8CEsvsuuiC7jk",  # ✅ your model
     "train.csv": "1TeKaqSNmAe0yScnb6UpdnfekH3C1d0ya",
     "test.csv": "1s2uI4slJCfSC9I6OO0ETwX8z-4b13bxe"
 }
 
-# Download each file
 for name, fid in files.items():
-    dest_path = os.path.join(output_dir, name)
+    dest_path = os.path.join(MODEL_DIR, name)
     if not os.path.exists(dest_path):
-        print(f"Downloading {name}...")
+        st.write(f"📥 Downloading {name} from Google Drive...")
         gdown.download(f"https://drive.google.com/uc?id={fid}", dest_path, quiet=False)
 
-# CACHED MODEL LOADING
+# ------------------------------------------------------------
+# 🧠 STEP 3 — Cached model loading (to speed up app reloads)
+# ------------------------------------------------------------
 @st.cache_resource
 def load_model():
     """Load and cache the ML model to avoid reloading every time."""
-    with open('beats_model/best_model.pkl', 'rb') as f:
+    with open(os.path.join(MODEL_DIR, "best_model.pkl"), "rb") as f:
         model = pickle.load(f)
     return model
 
-model = load_model()  # Model is now cached!
+model = load_model()
 
 # SETTING PAGE TITLE 
 st.set_page_config(page_title=" Music BPM Predictor",page_icon="🎧",layout='wide')
