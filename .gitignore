@@ -27,6 +27,7 @@ ENV/
 *.code-workspace
 
 # --- Data & model files ---
+beats_model/
 *.pkl
 *.joblib
 *.h5
@@ -42,5 +43,5 @@ ENV/
 
 # --- Temporary files ---
 *.tmp
-*.bak
+*.bak  
 *.swp

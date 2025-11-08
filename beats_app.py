@@ -2,12 +2,38 @@ import streamlit as st
 import numpy as np
 import pandas as pd 
 import pickle 
+import os
+import gdown
+
+# Folder ID from Google Drive
+folder_id = "14gwGJRXfiyxrl56heHTgZ1oHkq2WHPM1"  # ⬅️ Replace this with your actual folder ID
+output_dir = "beats_model"
+
+# Create directory if it doesn't exist
+os.makedirs(output_dir, exist_ok=True)
+
+# Google Drive base URL for listing files in a folder
+url = f"https://drive.google.com/drive/u/0/folders/{folder_id}"
+
+# File IDs (manually specify or get individual file links)
+files = {
+    "best_model.pkl": "1Lx3eLuI0HMzeyCKcm7v8CEsvsuuiC7jk",
+    "train.csv": "1TeKaqSNmAe0yScnb6UpdnfekH3C1d0ya",
+    "test.csv": "1s2uI4slJCfSC9I6OO0ETwX8z-4b13bxe"
+}
+
+# Download each file
+for name, fid in files.items():
+    dest_path = os.path.join(output_dir, name)
+    if not os.path.exists(dest_path):
+        print(f"Downloading {name}...")
+        gdown.download(f"https://drive.google.com/uc?id={fid}", dest_path, quiet=False)
 
 # CACHED MODEL LOADING
 @st.cache_resource
 def load_model():
     """Load and cache the ML model to avoid reloading every time."""
-    with open('best_model.pkl','rb') as f:
+    with open('beats_model/best_model.pkl', 'rb') as f:
         model = pickle.load(f)
     return model
 
